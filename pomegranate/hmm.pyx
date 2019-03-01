@@ -3492,8 +3492,8 @@ cdef class HiddenMarkovModel(GraphModel):
         use_pseudocount=False, stop_threshold=1e-9, min_iterations=0,
         max_iterations=1e8, n_init=1, init='kmeans++', max_kmeans_iterations=1,
         batch_size=None, batches_per_epoch=None, lr_decay=0.0, end_state=False,
-        state_names=None, name=None, callbacks=[], return_history=False,
-        verbose=False, n_jobs=1, independent_dists=None):
+        state_names=None, name=None, independent_dists=None, callbacks=[], return_history=False,
+        verbose=False, n_jobs=1):
         """Learn the transitions and emissions of a model directly from data.
 
         This method will learn both the transition matrix, emission distributions,
