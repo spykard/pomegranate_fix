@@ -3484,6 +3484,7 @@ cdef class HiddenMarkovModel(GraphModel):
         model.bake(verbose=verbose, merge=merge)
         return model
 
+    # BUG FIX HERE
     @classmethod
     def from_samples(cls, distribution, n_components, X, weights=None,
         labels=None, algorithm='baum-welch', inertia=None, edge_inertia=0.0,
