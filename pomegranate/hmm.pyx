@@ -3493,7 +3493,7 @@ cdef class HiddenMarkovModel(GraphModel):
         max_iterations=1e8, n_init=1, init='kmeans++', max_kmeans_iterations=1,
         batch_size=None, batches_per_epoch=None, lr_decay=0.0, end_state=False,
         state_names=None, name=None, callbacks=[], return_history=False,
-        verbose=False, n_jobs=1):
+        verbose=False, n_jobs=1, independent_dists=None):
         """Learn the transitions and emissions of a model directly from data.
 
         This method will learn both the transition matrix, emission distributions,
@@ -3688,8 +3688,15 @@ cdef class HiddenMarkovModel(GraphModel):
                     d.fit(X_[labels_ == label])
                     distributions.append(d)
             else:
-                distributions = [distribution.from_samples(
-                    X_[labels_ == label]) for label in label_set]
+                if distribution is IndependentComponentsDistribution:
+                    if independent_dists is None:
+                        raise TypeError("Using an independent components distribution but did not pass in the distribution types!")
+
+                    distributions = [distribution.from_samples(
+                    X_[labels_ == label], distributions=independent_dists) for label in label_set]
+                else:
+                    distributions = [distribution.from_samples(
+                        X_[labels_ == label]) for label in label_set]
 
             if len(label_set) != n_components:
                 raise ValueError("Specified {} components, but only {} different "
