@@ -3059,10 +3059,10 @@ cdef class HiddenMarkovModel(GraphModel):
             if present < self.silent_start:
                 if self.cython == 0:
                     with gil:
-                        python_summarize(self.distributions[present], sequence,
+                        python_summarize(self.distributions[present], sequence+j*self.d,,
                             &weight, 1)
                 else:
-                    (<Model> distributions[present])._summarize(sequence,
+                    (<Model> distributions[present])._summarize(sequence+j*self.d,
                         &weight, 1, 0, self.d)
                 j += 1
 
